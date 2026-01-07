@@ -5,7 +5,7 @@ __pycache__/
 .idea/
 .cursor/
 
-generate_data.py 
+# generate_data.py 
 generated_loan_data.csv
 data/
 

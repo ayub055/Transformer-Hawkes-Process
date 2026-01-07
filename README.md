@@ -11,7 +11,11 @@ Source code for [Transformer Hawkes Process (ICML 2020)](https://arxiv.org/abs/2
 
 ### Instructions
 1. Put the data folder inside the root folder, modify the **data** entry in **run.sh** accordingly. The datasets are available [here](https://drive.google.com/drive/folders/0BwqmV0EcoUc8UklIR1BKV25YR1U?resourcekey=0-OrlU87jyc1m-dVMmY5aC4w&usp=sharing).
-2. **bash run.sh** to run the code.
+2. For custom data generation and conversion:
+   - `python generate_data.py` - Generate 2000 customers, convert to Hawkes format, and save to train.pkl/dev.pkl/test.pkl (ready for training)
+   - `python generate_data.py --num_samples 500` - Generate custom number of samples
+   - Legacy options: `--format csv/pickle/both` still available
+3. **bash run.sh** to run the code.
 
 ### Note
 * Right now the code only supports single GPU training, but an extension to support multiple GPUs should be easy.
