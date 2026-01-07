@@ -1,6 +1,7 @@
 import numpy as np
 import torch
 import torch.utils.data
+from collections import defaultdict
 
 from transformer import Constants
 
@@ -74,3 +75,27 @@ def get_dataloader(data, batch_size, shuffle=True):
         shuffle=shuffle
     )
     return dl
+
+
+def convert_to_hawkes_format(data_rows):
+    type_to_id = defaultdict(lambda: len(type_to_id))
+    event_streams = []
+
+    for row in data_rows:
+        loan_types = row['loan_type_seq'].split('|')
+        loan_amts = list(map(float, row['loan_amt_seq'].split('|')))
+        ages = list(map(float, row['age_seq'].split('|')))
+
+        events = []
+        for i, (loan_type, loan_amt, age) in enumerate(zip(loan_types, loan_amts, ages)):
+            event = {
+                'time_since_start': age - ages[0],
+                'time_since_last_event': age - ages[i-1] if i > 0 else 0.0,
+                'type_event': type_to_id[loan_type],
+                'loan_amount': loan_amt
+            }
+            events.append(event)
+
+        event_streams.append(events)
+
+    return event_streams, len(type_to_id)
