@@ -3,4 +3,10 @@ log/
 
 __pycache__/
 .idea/
+.cursor/
 
+generate_data.py 
+generated_loan_data.csv
+data/
+
+log.txt
