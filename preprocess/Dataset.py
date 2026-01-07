@@ -2,6 +2,7 @@ import numpy as np
 import torch
 import torch.utils.data
 from collections import defaultdict
+import pickle
 
 from transformer import Constants
 
@@ -99,3 +100,16 @@ def convert_to_hawkes_format(data_rows):
         event_streams.append(events)
 
     return event_streams, len(type_to_id)
+
+
+def save_data(data, num_types, output_file):
+    """Save Hawkes data to pickle format matching load_data expectations."""
+    pickle_data = {
+        'dim_process': num_types,
+        'train': data['train'] if isinstance(data, dict) and 'train' in data else data,
+        'dev': data['dev'] if isinstance(data, dict) and 'dev' in data else [],
+        'test': data['test'] if isinstance(data, dict) and 'test' in data else []
+    }
+
+    with open(output_file, 'wb') as f:
+        pickle.dump(pickle_data, f)
